@@ -17,8 +17,16 @@ class EventEmitter {
 
 const emitter = new EventEmitter();
 
-emitter.on('some-event', console.log);
+ const unsub1 = emitter.on('some-event', console.log);
 // ...
-emitter.on('some-event', console.log);
+const unsub2 = emitter.on('some-event', console.log);
 // ...
-emitter.emit('some-event', { data: 123 });
+
+setTimeout(() =>{
+    emitter.emit('some-event', { data: 123 });
+    emitter.once('some-event-2', console.log);
+    unsub1();
+    setTimeout(()=>{
+        emitter.emit('some-event-2', { data: 456});
+    }, 3000);
+}, 1000);
