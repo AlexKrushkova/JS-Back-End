@@ -47,24 +47,46 @@
 
 
 // Creating a simple Node.js web server
+// Re-arrange the server while adding stream manipulations  
 
-// const config = require('./config.json');
-// const http = require('http');
-// const fs = require('fs');
-// const url = require('url');
+const config = require('./config.json');
+const http = require('http');
+const fs = require('fs');
+const url = require('url');
+const stream = require('stream');
+const zlib= require("zlib");
 
-// http.createServer((req, res) => {
-//     const path = url.parse(req.url).pathname;
-//     if (path === '/') {
-//         fs.readFile('./text.txt', { encoding: 'utf-8' }, function (err, data) {
-//             res.end(data.toUpperCase());
-//         });
-//     } else if (path === '/test') {
-//         res.end('HELLO!');
-//     }
-//     // res.write('Hello world!');
-//     // res.end('Hello World!');
-// }).listen(config.port);
+// Creating transform stream that transform lower to uppercase 
+
+function createUppercaseStream(){
+    const ts = stream.Transform({
+        transform(chunk, enc, ext){
+            chunk = Buffer.from(chunk.toString().toUpperCase());
+            next(null, chunk);
+        }
+    })
+    return ts;
+}
+
+const us = createUppercaseStream()
+
+http.createServer((req, res) => {
+    const path = url.parse(req.url).pathname;
+    if (path === '/') {
+        const rs =  fs.createReadStream('./text.txt, { highWaterMark: 10}');
+        res.on('data', function(chunk){
+            console.log(chunk);
+        })
+        rs.pipe(us).pipe(res);
+        // fs.readFile('./text.txt', { encoding: 'utf-8' }, function (err, data) {
+        //     res.end(data.toUpperCase());
+        // });
+    } else if (path === '/test') {
+        res.end('HELLO!');
+    }
+    // res.write();
+    // res.end('Hello World!');
+}).listen(config.port);
 
 
 
