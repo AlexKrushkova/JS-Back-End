@@ -1,14 +1,14 @@
 {
   "name": "intro-to-nodejs",
   "version": "1.0.0",
-  "description": "Our first node.js project (kinda)",
+  "description": "Demo",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js",
     "serve": "nodemon ./index.js"
   },
-  "author": "JJ_Nedelinov",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.20"
