@@ -1,2 +1,3 @@
 # JS-Back-End
-Курсът е интензивен и цели да запознае учащите с разработката на сървърни JavaScript приложения върху платформата Node.js, използвайки Express.js, като framework. По време на обучението ще разберем как да създадем сървър с Node.js, ще се научим на сървър-клиент архитектурата и как да правим лесни и бързи data-driven web приложения с Node.js, Express.js и MongoDB, използвайки съвременни похвати и инструменти.
+The course is intensive and aims to introduce students to the development of server-side JavaScript applications on the Node.js platform, using Express.js as a framework. During the training we will learn how to create a server with Node.js, we will learn the server-client architecture and how to make easy and fast data-driven web applications with Node.js, Express.js and MongoDB, using modern techniques and tools.
+
