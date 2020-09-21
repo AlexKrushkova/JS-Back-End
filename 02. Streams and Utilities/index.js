@@ -54,7 +54,10 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const stream = require('stream');
-const zlib= require("zlib");
+const zlib = require("zlib");
+
+// Creating zlib and implement it in the server data stream
+const zips = zlib.createGzip();
 
 // Creating transform stream that transform lower to uppercase 
 
