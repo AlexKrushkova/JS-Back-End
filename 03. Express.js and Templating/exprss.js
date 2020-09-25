@@ -14,9 +14,9 @@ module.exports = function(){
         const { path, query} = url.parse(req.url, true);
         const method = req.method.toLowerCase();
         const reqHandler = handlers[method][path];
-        
+
         if(!reqHandler){
-            res.end(`Route ${method} ${path} not found!`);
+            res.end(`Route ${req.method} ${path} not found!`);
             return;
         }
 
@@ -27,6 +27,9 @@ module.exports = function(){
         listen: server.listen.bind(server),
         get(path, handler){
             handlers.get[path] = handler;
+        },
+        post(path, handler){
+            handlers.post[path] = handler;
         }
-    }
+    };
 };
