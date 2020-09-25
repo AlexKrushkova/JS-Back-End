@@ -1,4 +1,4 @@
-const exprss = require('/exprss');
+const exprss = require('./exprss');
 
 
 const app = exprss();
@@ -27,7 +27,7 @@ app.get('/', logRequestedDate, function(req, res){
 
 app.post('/', bodyParser, function(req, res){
     console.log(req.body);
-    res.end(rq.body)
+    res.end(req.body);
 });
 
 app.listen(3000, function(){

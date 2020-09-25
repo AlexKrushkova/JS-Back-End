@@ -36,6 +36,14 @@ module.exports = function(){
             return;
         }
 
+        const originalEnd = res.end.bind(res);
+        res.end = function(data){
+            if(typeof data === 'object'){
+                data = JSON.stringify(data);
+            }
+            originalEnd(data);
+        }
+
         iterateAndExecuteHandlers(req, res, reqHandlers);
 
         // reqHandlers.forEach(fn => fn(req,res));
