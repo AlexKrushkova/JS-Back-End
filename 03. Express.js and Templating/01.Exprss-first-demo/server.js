@@ -25,9 +25,16 @@ app.get('/', logRequestedDate, function(req, res){
     res.end('Hello from exprss')
 });
 
-app.post('/', bodyParser, function(req, res){
+const users = [];
+
+app.post('/', logRequestedDate, bodyParser, function(req, res){
     console.log(req.body);
     res.end(req.body);
+});
+
+app.post('/user', bodyParser, function(req, res){
+    users.push(req.body);
+    res.end('O.K');
 });
 
 app.listen(3000, function(){
