@@ -1,6 +1,22 @@
 const http = require('http');
 const url = require('url');
 
+function methodHandlerFactory(handlers, method){
+    return function(path, ...fns){
+        // const handler = fns[fns.length-1];
+        handlers[method][path] = fns;
+    }
+}
+
+function iterateAndExecuteHandlers(req, res, handlersArray, done){
+    const fn = handlersArray[0];
+    if(!fn){done(req,res); return;}
+    fn(Req, res, function(err){
+        if(err){console.error(err); return;}
+        iterateAndExecuteHandlers(req, res, handlersArray.slice(1));
+    });
+}
+
 module.exports = function(){    
     const handlers = {
         get: {},
@@ -13,23 +29,28 @@ module.exports = function(){
     const server = http.createServer(function(req,res){
         const { path, query} = url.parse(req.url, true);
         const method = req.method.toLowerCase();
-        const reqHandler = handlers[method][path];
+        const reqHandlers = handlers[method][path];
 
-        if(!reqHandler){
+        if(!reqHandlers){
             res.end(`Route ${req.method} ${path} not found!`);
             return;
         }
 
-        reqHandler(req, res);
+        iterateAndExecuteHandlers(req, res, reqHandlers);
+
+        // reqHandlers.forEach(fn => fn(req,res));
+     
     });
 
     return{
         listen: server.listen.bind(server),
-        get(path, handler){
-            handlers.get[path] = handler;
-        },
-        post(path, handler){
-            handlers.post[path] = handler;
-        }
+        get: methodHandlerFactory(handlers, 'get'),
+        post: methodHandlerFactory(handlers, 'post'),
+        // get(path, handler){
+        //     handlers.get[path] = handler;
+        // },
+        // post(path, handler){
+        //     handlers.post[path] = handler;
+        // }
     };
 };
